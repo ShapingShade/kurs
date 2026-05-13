@@ -9,8 +9,9 @@ const ClientsPage = () => {
 
     const [name, setName] = useState<string>('')
     const [email, setEmail] = useState<string>('')
-    const [status, setStatus] = useState<string>('')
-
+    const [status, setStatus] = useState<TClientStatus>('active')
+    const [errors, setErrors] = useState<{name?: string; email?: string}>({})
+    
 
 
     const filteredClients = clients.filter((c) => {
@@ -25,8 +26,17 @@ const ClientsPage = () => {
         return matchesSearch && matchesFilter;
     })
 
-    const validate = () => {
-        return name.trim().length <2;
+    const isValid = () => {
+        const err: typeof errors = {};
+        if(name.trim().length<2){
+            err.name = "Name must have at least 2 characters"
+        }
+        if(!email.includes("@")){
+            err.email = "Email must conrain @"
+        }
+
+        setErrors(err)
+        return Object.keys(err).length === 0;
     }
 
     const handleSubmit = (e: React.SubmitEvent) => {
@@ -41,8 +51,8 @@ const ClientsPage = () => {
         }
 
 
-        const isValid = validate();
-        if(isValid) return;
+
+        if(!isValid()) return;
         setClients([...clients, newClient]);
 
 
@@ -59,7 +69,6 @@ const ClientsPage = () => {
             placeholder="Search by name or email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-
             />
             <select
                 value={filterStatus}
@@ -103,6 +112,7 @@ const ClientsPage = () => {
                     Name: <br></br>
                     <input value={name} onChange={(e) => setName(e.target.value)}></input>
                 </label>
+                {errors.name && <p style={{color:"red"}}>{errors.name}</p>}
             </div>
             <div>
                 <label>
