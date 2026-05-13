@@ -25,6 +25,9 @@ const ClientsPage = () => {
         return matchesSearch && matchesFilter;
     })
 
+    const handleSubmit = (e: React.SubmitEvent) => {
+        e.preventDefault()
+    }
     return( 
     <div>
         <h2>Clients</h2>
