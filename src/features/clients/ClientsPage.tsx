@@ -25,8 +25,29 @@ const ClientsPage = () => {
         return matchesSearch && matchesFilter;
     })
 
+    const validate = () => {
+        return name.trim().length <2;
+    }
+
     const handleSubmit = (e: React.SubmitEvent) => {
         e.preventDefault()
+
+        const newClient:IClient = {
+            id: crypto.randomUUID(),
+            name: name,
+            email: email,
+            status: status,
+            createdAt: new Date().toISOString()
+        }
+
+
+        const isValid = validate();
+        if(isValid) return;
+        setClients([...clients, newClient]);
+
+
+
+
     }
     return( 
     <div>
@@ -76,7 +97,7 @@ const ClientsPage = () => {
             </tbody>
         </table>
         <h3>Add New Client</h3>
-        <form method="post">
+        <form method="post" onSubmit={handleSubmit}>
             <div>
                 <label>
                     Name: <br></br>
@@ -93,7 +114,7 @@ const ClientsPage = () => {
                 <label>
                     Status: <br></br>
                     <select 
-                    value="status" 
+                    value={status}
                     onChange={(e) => setStatus(e.target.value as TClientStatus)}>
                         <option value="lead">Lead</option>
                         <option value="lead">Active</option>
@@ -101,6 +122,7 @@ const ClientsPage = () => {
                     </select>
                 </label>
             </div>
+            <button type="submit">Add Client</button>
         </form>
     </div>
     )
