@@ -55,7 +55,9 @@ const ClientsPage = () => {
         if(!isValid()) return;
         setClients([...clients, newClient]);
 
-
+        setName('');
+        setEmail('');
+        setStatus('active');
 
 
     }
@@ -119,6 +121,7 @@ const ClientsPage = () => {
                     Email: <br></br>
                     <input value={email} onChange={(e) => setEmail(e.target.value)}></input>
                 </label>
+                 {errors.email && <p style={{color:"red"}}>{errors.email}</p>}
             </div>
             <div>
                 <label>
