@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { mockClients } from "./mock"
 import type { IClient, TClientStatus } from "./types";
+import ClientsList from "./components/ClientsList";
 
 const ClientsPage = () => {    
     const [clients, setClients] = useState<IClient[]>(mockClients);
@@ -87,26 +88,9 @@ const ClientsPage = () => {
 
         </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Status</th>
-                    <th>Created at</th>
-                </tr>
-            </thead>
-            <tbody>
-                {filteredClients.map((client)=> (
-                <tr key={client.id}>
-                    <td>{client.name}</td>
-                    <td>{client.email}</td>
-                    <td>{client.status}</td>
-                    <td>{client.createdAt}</td>
-                </tr>
-                ))}
-            </tbody>
-        </table>
+        <ClientsList clients={filteredClients}/>
+
+
         <h3>Add New Client</h3>
         <form method="post" onSubmit={handleSubmit}>
             <div>
