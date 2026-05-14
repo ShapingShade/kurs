@@ -40,6 +40,19 @@ const ClientsPage = () => {
         return Object.keys(err).length === 0;
     }
 
+
+    const handleAddClient = (newClient: Omit<IClient, "id" | "createdAt">) => {
+
+        const client = {
+            id: crypto.randomUUID(),
+            name: newClient.name,
+            email: newClient.email,
+            status: newClient.status,
+            createdAt: new Date().toISOString()
+        }
+        setClients([...clients, client])
+    }
+
     const handleSubmit = (e: React.SubmitEvent) => {
         e.preventDefault()
 
@@ -59,9 +72,10 @@ const ClientsPage = () => {
         setName('');
         setEmail('');
         setStatus('active');
-
-
     }
+
+
+
     return( 
     <div>
         <h2>Clients</h2>
